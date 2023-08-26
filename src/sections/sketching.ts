@@ -35,52 +35,55 @@ async function loadSvgs(): Promise<Record<string, PIXI.Texture>> {
 
 function addBg(app: PIXI.Application) {
   const canvasBg = new PIXI.Graphics();
-  const sketchingBg = "#cdcdcd";
+  const sketchingBg = "#222222";
   canvasBg.beginFill(sketchingBg); // Your chosen background color
   canvasBg.drawRect(0, 0, app.renderer.width, app.renderer.height);
   canvasBg.endFill();
   app.stage.addChild(canvasBg);
 }
 
-  // Function to create a rectangle with a gray border
   function createRectangle(width: number, height: number) {
+    const lineColor = "#f8f8f8";
     return new PIXI.Graphics()
-      .lineStyle(4, 0x808080) // Gray border
+      .lineStyle(1, lineColor) // Gray border
       .beginFill(0, 0) // Transparent fill
       .drawRect(0, 0, width, height)
       .endFill();
   }
 
   function addItems(app: PIXI.Application) {
+    const lineColor = "#f8f8f8";
+    const lineThickness = 2;
     const items = new PIXI.Container();
     app.stage.addChild(items);
   
-    const circle = new PIXI.Graphics().lineStyle(4, 0x808080).drawCircle(0, 0, 30);
+    const circle = new PIXI.Graphics().lineStyle(lineThickness, lineColor).drawCircle(0, 0, 60);
     const diamond = new PIXI.Graphics()
-      .lineStyle(4, 0x808080)
-      .moveTo(0, -30)
-      .lineTo(30, 0)
-      .lineTo(0, 30)
-      .lineTo(-30, 0)
+      .lineStyle(lineThickness, lineColor)
+      .moveTo(0, -60)
+      .lineTo(60, 0)
+      .lineTo(0, 60)
+      .lineTo(-60, 0)
       .closePath();
     const triangle = new PIXI.Graphics()
-      .lineStyle(4, 0x808080)
-      .moveTo(0, -30)
-      .lineTo(30, 30)
-      .lineTo(-30, 30)
+      .lineStyle(lineThickness, lineColor)
+      .moveTo(0, -60)
+      .lineTo(60, 60)
+      .lineTo(-60, 60)
       .closePath();
-    const rectangle = new PIXI.Graphics().lineStyle(4, 0x808080).drawRect(-30, -15, 60, 30); // Rectangle added
+
+    const circle2 = new PIXI.Graphics().lineStyle(lineThickness, lineColor).drawCircle(45, 0, 60);
   
-    items.addChild(circle, diamond, triangle, rectangle);
+    items.addChild(circle, diamond, triangle, circle2);
   
-    [circle, diamond, triangle, rectangle].forEach((shape, index) => {
-      shape.x = app.screen.width / 2;
-      shape.y = 100 + index * 100; // Position adjusted to include the rectangle
+    [circle, diamond, triangle, circle2].forEach((shape, index) => {
+      shape.x = 100 * (index + 1);
+      shape.y = 100 + index * 100; 
       shape.scale.set(0);
     });
   
     let animationStage = 0;
-    const growthSpeed = 0.01;
+    const growthSpeed = 1;
     app.ticker.add(() => {
       if (animationStage === 0 && circle.scale.x < 1) {
         circle.scale.set(circle.scale.x + growthSpeed);
@@ -100,8 +103,8 @@ function addBg(app: PIXI.Application) {
         animationStage = 3;
       }
   
-      if (animationStage === 3 && rectangle.scale.x < 1) { // Rectangle animation added
-        rectangle.scale.set(rectangle.scale.x + growthSpeed);
+      if (animationStage === 3 && circle2.scale.x < 1) { // Rectangle animation added
+        circle2.scale.set(circle2.scale.x + growthSpeed);
       }
     });
   }

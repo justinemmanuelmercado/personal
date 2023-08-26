@@ -10,15 +10,12 @@
 
   /* Hide overflow content */
   & #hero-animation {
-    position: absolute;
-    /* Absolute positioning is still used here to place the canvas below the text */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
-
-    /* Place it below the text */
   }
 
   & .hero-copy {

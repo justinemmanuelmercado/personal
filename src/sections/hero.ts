@@ -65,7 +65,6 @@ const jsElement = document.querySelector("code.js") as HTMLElement;
 const rawJs = (await import(`../index.ts?raw`)).default;
 
 function animateHero() {
-console.log(rawCss);
   const words = document.querySelectorAll(".word");
   const caret = document.querySelector(".arrows-container.not-loaded");
   const eachWordDelay = 200;
@@ -125,7 +124,7 @@ function addScrollListener() {
       const fadeOutPercentage =
         1 - (percentOfScreenHeightScrolled - percentToFade) / 0.25;
       const clampedFadeOutPercentage = Math.min(
-        Math.max(fadeOutPercentage, 0),
+        Math.max(fadeOutPercentage, 0.1),
         1
       );
 
@@ -348,12 +347,10 @@ function initTabs() {
   let tabs = document.querySelectorAll(".tab");
   let pres = document.querySelectorAll("pre");
 
-  // Init
   pres.forEach((pre) => pre.classList.add("pre-inactive"));
   pres[0].classList.replace("pre-inactive", "pre-active");
-  tabs[0].classList.add("tab-active");  // Initialize the first tab as active
+  tabs[0].classList.add("tab-active");  
 
-  // Manual Tab Switching
   tabs.forEach((tab) => {
     tab.addEventListener("click", (e) => {
       let target = e.target as HTMLElement;
@@ -362,13 +359,13 @@ function initTabs() {
       pres.forEach((pre) =>
         pre.classList.replace("pre-active", "pre-inactive")
       );
-      tabs.forEach((tab) => tab.classList.remove("tab-active"));  // Remove active class from all tabs
+      tabs.forEach((tab) => tab.classList.remove("tab-active"));  
 
       document
         .querySelector(`pre[data-tag="${dataTarget}"]`)
         ?.classList.replace("pre-inactive", "pre-active");
       
-      target.classList.add("tab-active");  // Add active class to clicked tab
+      target.classList.add("tab-active");  
     });
   });
 }
