@@ -3,10 +3,12 @@ import "./style/index.css";
 
 import { setupHero } from "./sections/hero";
 import { renderSketchingAnimation } from "./sections/sketching";
+import { renderSocialsAnimation } from './sections/socials';
 
 const hero = document.getElementById("hero-animation");
 const sketching = document.getElementById("sketching");
 async function main() {
+  renderSocialsAnimation();
   if (hero) {
     await setupHero(hero);
   }
@@ -16,6 +18,7 @@ async function main() {
   if (sketching) {
     await renderSketchingAnimation(sketching);
   }
+
 }
 
 function addIntersectionObserversToItems() {

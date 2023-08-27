@@ -1,0 +1,23 @@
+.socials {
+  height: 100lvh;
+  width: 100lvw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+
+/* .socials-cta-buttons {
+  position: relative;
+  width: 300px;
+  height: 100px;
+  overflow: hidden;
+} */
+
+.socials-cta-button {
+  --x: 0;
+  --y: 0;
+  transform: translate(var(--x), var(--y));
+  transition: all 0.2s ease;
+}

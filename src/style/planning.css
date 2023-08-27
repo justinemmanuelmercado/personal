@@ -1,21 +1,20 @@
 
 .planning {
   display: flex;
+  height: 100lvh;
   width: 100lvw;
   max-width: var(--max-width);
   margin: 0 auto;
-  gap: 2rem;
-  z-index: 1;
+  align-items: center;
  
   & .planning-title {
-    font-size: 11.089rem;
+    font-size: 6.854rem;
   }
 
   & .planning-copy {
     flex: 1;
     display: flex;
     flex-direction: column;
-    z-index: 1;
     gap: 2rem;
     & .item {
       display: flex;
@@ -39,15 +38,18 @@
         background-color: var(--grayscale-1000);
         display: flex;
         flex-direction: row;
-        gap: 4rem;
         padding: 2rem;
         align-items: center;
         width: 100%;
 
-        & > * {
-          flex: 1
+        & > :first-child {
+          flex: 1;
         }
-        
+
+        & > :last-child {
+          flex: 2;
+        }
+
         & h1 {
           font-size: 4.236rem;
           font-weight: 700;
