@@ -6,11 +6,36 @@
   justify-content: center;
   flex-direction: column;
   position: relative;
+
+  & .header {
+    & .word {
+      display: inline-block;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease-in;
+    }
+
+    &.scrolled {
+      & .word {
+        &.loaded {
+          transform: translateY(0%);
+          opacity: 1;
+        }
+      }
+    }
+  }
 }
 
 .socials-cta-buttons {
   border-radius: 1rem;
   border: 1px solid var(--grayscale-100);
+  opacity: 0;
+  transform: translateY(50%);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease-in;
+  &.scrolled {
+    opacity: 1;
+    transform: translateY(0%);
+  }
 }
 
 .socials-cta-link {
@@ -32,7 +57,7 @@
     font-size: 1.2rem;
 
     &:hover {
-    transition: transform 0.1s ease;
+      transition: transform 0.1s ease;
       transform: scale(1.05) translate(var(--x), var(--y));
     }
   }

@@ -7,6 +7,10 @@
   --button-gradient2: #4d0099;
   --button-text: var(--grayscale-50);
 
+  --frontend: #303F9F;
+  --devops: #3E2723;
+  --backend: #4a0050;
+
   --grayscale-50: #f8f8f8;
   --grayscale-100: #f0f0f0;
   --grayscale-200: #e1e1e1;
@@ -19,7 +23,6 @@
   --grayscale-900: #3d3d3d;
   --grayscale-950: #222222;
   --grayscale-1000: #000000;
-  --scroll: 0;
   --figure-transition: 0.5s;
   --figure-transition-delay: 0.3s;
   --max-width: 1080px;
@@ -76,4 +79,9 @@ body {
   & small {
     font-size: 0.8rem;
   }
+}
+
+footer {
+  margin: auto;
+  max-width: var(--max-width);
 }

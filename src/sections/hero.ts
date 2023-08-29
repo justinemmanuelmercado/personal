@@ -85,13 +85,13 @@ const terminalText = [
 ];
 const chatText = [
   { text: "Client: Hey, how's it going?", type: "chat" },
-  { text: "You: Doing great, thanks! What's up?", type: "chat" },
+  { text: "Justin: Doing great, thanks! What's up?", type: "chat" },
   {
     text: "Client: We need to deploy a new version of our website. Can you handle it?",
     type: "chat",
   },
   {
-    text: "You: Of course! Do you have any new features or changes?",
+    text: "Justin: Of course! Do you have any new features or changes?",
     type: "chat",
   },
   {
@@ -99,16 +99,16 @@ const chatText = [
     type: "chat",
   },
   {
-    text: "You: Awesome! I'll pull the latest code and deploy it.",
+    text: "Justin: Awesome! I'll pull the latest code and deploy it.",
     type: "chat",
   },
   {
     text: "Client: Perfect. We're also moving to AWS S3 for hosting.",
     type: "chat",
   },
-  { text: "You: Sounds good. I'll get that set up for you.", type: "chat" },
+  { text: "Justin: Sounds good. I'll get that set up for you.", type: "chat" },
   { text: "Client: Great, let me know once it's live.", type: "chat" },
-  { text: "You: Will do. Talk to you soon!", type: "chat" },
+  { text: "Justin: Will do. Talk to you soon!", type: "chat" },
   { text: "Client: Thanks, looking forward to it!", type: "chat" },
 ];
 
@@ -194,11 +194,6 @@ function addScrollListener() {
         (heroSection[0] as HTMLElement).style.opacity = "1"; // Ensure full opacity if less than 75%
       }
     }
-
-    htmlElement.style.setProperty(
-      "--scroll",
-      String(Math.min(percentOfScreenHeightScrolled * 100, 100))
-    );
   });
 }
 
@@ -356,7 +351,7 @@ function typeChat(
   preElement.innerHTML = currentText;
   setTimeout(() => {
     cb(preElement, commands, currentIndex + 1, currentText);
-  }, 2000);
+  }, 1000);
 }
 
 function typeInstant(
@@ -394,8 +389,7 @@ function typeTerminal(
         currentIndex,
         currentText
       );
-    }
-    if (messages[currentIndex].type === "chat") {
+    } else if (messages[currentIndex].type === "chat") {
       typeChat(messages, preElement, typeTerminal, currentIndex, currentText);
     } else {
       typeInstant(

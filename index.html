@@ -11,7 +11,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/frontend.svg">
+  <link rel="preload" as="image" href="/backend.svg">
+  <link rel="preload" as="image" href="/devops.svg">
 </head>
+
 
 <body>
 
@@ -40,9 +44,7 @@
           <div class="tab" data-target="css">CSS</div>
           <div class="tab" data-target="js">JS</div>
         </div>
-        <div data-tag="chat">
-          <code class="chat language-sh"></code>
-        </div>
+        <pre data-tag="chat"><code class="chat language-sh"></code></pre>
         <pre data-tag="shell"><code class="bash language-sh"></code></pre>
         <pre data-tag="html"><code class="html language-markup"></code></pre>
         <pre data-tag="js"><code class="js language-js"></code></pre>
@@ -59,51 +61,65 @@
   </section>
   <section class="planning">
     <div class="planning-copy">
-      <h1 class="planning-title">What I can do for you</h1>
-      <div class="item">
-        <div class="item-body">
-          <h1>Frontend</h1>
-          <div>
-            <h4>
-              Skilled in React and Pure JavaScript
-            </h4>
-            <p>
-              My toolkit for frontend is pretty versatile. Whether it's building robust applications in React or
-              crafting interactive web pages with pure JavaScript, I've got the chops. And TypeScript is always there
-              to keep things organized and debuggable.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-body">
+      <h1 class="planning-title">Code to Fit Your Every Need</h1>
+      <div class="items">
 
-          <h1>Backend</h1>
-          <div>
-            <h4>Node.js Expertise with a Side of Go</h4>
-            <p>While Node.js and Express are my bread and butter for backend development, I also use Go in side
-              projects. It adds another layer of versatility to my skill set, offering different perspectives on
-              backend solutions.</p>
+        <div class="item to-scroll">
+          <div class="item-body">
+            <div class="gradient-container item-frontend">
+              <div class="gradient-box"></div>
+            </div>
+            <div>
+              <h4>
+                React and Typescript
+              </h4>
+              <p>
+                My toolkit for frontend is pretty versatile. Whether it's building robust applications in React or
+                crafting interactive web pages with pure JavaScript, I've got the chops. And TypeScript is always there
+                to keep things organized and debuggable.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="item">
-        <div class="item-body">
-          <h1>DevOps</h1>
-          <div>
-            <h4>Skilled in VPS Deployments and Cloud Basics</h4>
-            <p>
-              My primary focus for deployments is on VPS to give you that fine-grained control. But don't count out
-              AWS; I've dabbled in it for scalable cloud solutions. With Postgres and Docker in the mix, we're talking
-              a well-rounded operations skill set.</p>
+        <div class="item to-scroll">
+          <div class="item-body">
+            <div class="gradient-container item-backend">
+              <div class="gradient-box"></div>
+            </div>
+            <div>
+              <h4>Node.js with a Side of Go</h4>
+              <p>While Node.js and Express are my bread and butter for backend development, I also use Go in side
+                projects. It adds another layer of versatility to my skill set, offering different perspectives on
+                backend solutions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="item to-scroll">
+          <div class="item-body">
+            <div class="gradient-container item-devops">
+              <div class="gradient-box"></div>
+            </div>
+            <div>
+              <h4>VPS Deployments and Cloud Services</h4>
+              <p>
+                My primary focus for deployments is on VPS to give you that fine-grained control. But don't count out
+                AWS; I've dabbled in it for scalable cloud solutions. With Postgres and Docker in the mix, we're talking
+                a well-rounded operations skill set.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
   <section class="socials">
-    <h1>I'm up for new challenges</h1>
-    <div class="socials-cta-buttons">
+    <h1 class="header to-scroll">
+      <span class="word">Let's</span>
+      <span class="word">Build</span>
+      <span class="word">Something</span>
+      <span class="word">Awesome</span>
+      <span class="word">Together!</span>
+    </h1>
+    <div class="socials-cta-buttons to-scroll">
       <a href="mailto:ej@ejmercado.com" class="socials-cta-link"><button class="socials-cta-button">
           Contact me
         </button></a>
