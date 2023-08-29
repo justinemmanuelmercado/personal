@@ -3,12 +3,12 @@ import "./style/index.css";
 
 import { setupHero } from "./sections/hero";
 import { renderSketchingAnimation } from "./sections/sketching";
-import { renderSocialsAnimation } from './sections/socials';
+import { renderCtaAnimation } from './sections/socials';
 
 const hero = document.getElementById("hero-animation");
 const sketching = document.getElementById("sketching");
 async function main() {
-  renderSocialsAnimation();
+  renderCtaAnimation();
   if (hero) {
     await setupHero(hero);
   }

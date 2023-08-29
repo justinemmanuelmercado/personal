@@ -3,6 +3,10 @@
 @import "socials.css";
 
 :root {
+  --button-gradient1: #1a0033;
+  --button-gradient2: #4d0099;
+  --button-text: var(--grayscale-50);
+
   --grayscale-50: #f8f8f8;
   --grayscale-100: #f0f0f0;
   --grayscale-200: #e1e1e1;

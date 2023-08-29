@@ -1,51 +1,93 @@
 let animationFrameId: number;
 
-export function renderSocialsAnimation() {
+export function renderCtaAnimation() {
   const button = document.querySelector(
     ".socials-cta-button"
   ) as HTMLButtonElement;
-  const container = document.querySelector(
-    ".socials"
-  ) as HTMLDivElement;
+  const container = document.querySelector(".socials") as HTMLDivElement;
 
   if (!button || !container) {
     return;
   }
+
+  // const onMouseMove = (e: MouseEvent) => {
+  //   if (animationFrameId) {
+  //     cancelAnimationFrame(animationFrameId);
+  //   }
+
+  //   animationFrameId = requestAnimationFrame(() => {
+  //     const rect = container.getBoundingClientRect();
+  //     const buttonBounds = button.getBoundingClientRect();
+  //     const x = e.clientX - rect.left;
+  //     const y = e.clientY - rect.top;
+  //     const centerX = rect.width / 2;
+  //     const centerY = rect.height / 2;
+  //     const xDiff = x - centerX;
+  //     const yDiff = y - centerY;
+
+  //     // Check if mouse is inside button bounds
+  //     console.log("LEFT: ", buttonBounds.left)
+  //     console.log("RIGHT: ", buttonBounds.right)
+  //     console.log("TOP: ", buttonBounds.top)
+  //     console.log("BOTTOM: ", buttonBounds.bottom)
+  //     console.log("MOUSE: ", e.clientX, e.clientY)
+  //     if (
+  //       e.clientX >= buttonBounds.left &&
+  //       e.clientX <= buttonBounds.right &&
+  //       e.clientY >= buttonBounds.top &&
+  //       e.clientY <= buttonBounds.bottom
+  //     ) {
+  //       console.log("Mouse inside button, stopping animation.");
+  //       return;
+  //     }
+
+  //     // If mouse is not inside button, continue with animation
+  //     button.style.setProperty(
+  //       "--x",
+  //       `${Math.min(Math.max(xDiff, -50), 50)}px`
+  //     );
+  //     button.style.setProperty(
+  //       "--y",
+  //       `${Math.min(Math.max(yDiff, -50), 50)}px`
+  //     );
+  //   });
+  // };
 
   const onMouseMove = (e: MouseEvent) => {
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
     }
 
-    let currentX = 0;
-    let currentY = 0;
-    
     animationFrameId = requestAnimationFrame(() => {
       const rect = container.getBoundingClientRect();
+      const buttonBounds = button.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       const xDiff = x - centerX;
       const yDiff = y - centerY;
-      const speed = 0.01
-      console.log(xDiff, yDiff)
-    
-      const distance = Math.sqrt(xDiff ** 2 + yDiff ** 2);
-      const radius = 10000;
-    
-      // Calculate the target X and Y positions within the circle
-      const targetX = (xDiff / distance) * Math.min(distance, radius);
-      const targetY = (yDiff / distance) * Math.min(distance, radius);
-    
-      // Add some easing to smooth out the movement
-      currentX += (targetX - currentX) * speed;
-      currentY += (targetY - currentY) * speed;
-    
-      button.style.setProperty("--x", `${currentX}px`);
-      button.style.setProperty("--y", `${currentY}px`);
+      // Check if mouse is inside button bounds
+      if (
+        e.clientX >= buttonBounds.left &&
+        e.clientX <= buttonBounds.right &&
+        e.clientY >= buttonBounds.top &&
+        e.clientY <= buttonBounds.bottom
+      ) {
+        console.log("Mouse inside button, stopping animation.");
+        return;
+      }
+
+      // If mouse is not inside button, continue with animation
+      button.style.setProperty(
+        "--x",
+        `${Math.min(Math.max(xDiff, -30), 30)}px`
+      );
+      button.style.setProperty(
+        "--y",
+        `${Math.min(Math.max(yDiff, -20), 20)}px`
+      );
     });
-    
   };
 
   container.addEventListener("mousemove", onMouseMove);

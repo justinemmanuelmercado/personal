@@ -4,9 +4,7 @@ import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
 import { AsciiFilter } from "@pixi/filter-ascii";
 import Prism from "prismjs";
 
-
 let canvasBg: PIXI.Graphics;
-
 
 // PixiJs BG
 const heroSection = document.getElementsByClassName("hero");
@@ -23,8 +21,6 @@ const hoverColor = "#fff";
 const explosionColor = "#e1e1e1";
 
 // Terminal Animation
-let textIndex = 0;
-let currentTerminalText = "";
 const terminalElement = document.querySelector("code.bash") as HTMLElement;
 const terminalText = [
   { text: "$ git clone https://github.com/your-repo.git", type: "command" },
@@ -33,9 +29,23 @@ const terminalText = [
   { text: "Unpacking objects: 100% (3/3), done.", type: "instant" },
   { text: "$ cd your-repo", type: "command" },
   { text: "$ ls", type: "command" },
-  { text: "index.html  script.js  style.css", type: "instant" },
+  { text: "index.html  package.json  script.js  style.css", type: "instant" },
   { text: "$ npm install", type: "command" },
   { text: "added 50 packages, and audited 51 packages in 2s", type: "instant" },
+  { text: "$ npm install react react-dom", type: "command" },
+  {
+    text: "added 210 packages, and audited 261 packages in 5s",
+    type: "instant",
+  },
+  { text: "$ git add -A", type: "command" },
+  { text: "$ git commit -m 'Added React packages'", type: "command" },
+  { text: "[main e123456] Added React packages", type: "instant" },
+  { text: "$ git push", type: "command" },
+  { text: "Counting objects: 5, done.", type: "instant" },
+  {
+    text: "Writing objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.",
+    type: "instant",
+  },
   { text: "$ aws configure", type: "command" },
   { text: "AWS Access Key ID [None]:", type: "instant" },
   { text: "YourAWSAccessKey", type: "command" },
@@ -45,18 +55,64 @@ const terminalText = [
   { text: "us-west-2", type: "command" },
   { text: "$ aws s3 mb s3://your-bucket-name", type: "command" },
   { text: "make_bucket: your-bucket-name", type: "instant" },
-  { text: "$ aws s3 cp ./ s3://your-bucket-name/ --recursive", type: "command" },
-  { text: "upload: ./index.html to s3://your-bucket-name/index.html", type: "instant" },
-  { text: "upload: ./style.css to s3://your-bucket-name/style.css", type: "instant" },
-  { text: "upload: ./script.js to s3://your-bucket-name/script.js", type: "instant" },
+  {
+    text: "$ aws s3 cp ./ s3://your-bucket-name/ --recursive",
+    type: "command",
+  },
+  {
+    text: "upload: ./index.html to s3://your-bucket-name/index.html",
+    type: "instant",
+  },
+  {
+    text: "upload: ./style.css to s3://your-bucket-name/style.css",
+    type: "instant",
+  },
+  {
+    text: "upload: ./script.js to s3://your-bucket-name/script.js",
+    type: "instant",
+  },
+  {
+    text: "upload: ./package-lock.json to s3://your-bucket-name/package-lock.json",
+    type: "instant",
+  },
   { text: "$ aws s3 ls s3://your-bucket-name", type: "command" },
-  { text: "2023-08-26 12:45:06      10240 index.html", type: "instant" },
-  { text: "2023-08-26 12:45:06       2048 script.js", type: "instant" },
-  { text: "2023-08-26 12:45:06       4096 style.css", type: "instant" },
+  { text: "2023-08-26 13:00:06      10240 index.html", type: "instant" },
+  { text: "2023-08-26 13:00:06       2048 script.js", type: "instant" },
+  { text: "2023-08-26 13:00:06       4096 style.css", type: "instant" },
+  { text: "2023-08-26 13:00:06       1500 package.json", type: "instant" },
+  { text: "2023-08-26 13:00:06      18000 package-lock.json", type: "instant" },
   { text: "$ exit", type: "command" },
 ];
+const chatText = [
+  { text: "Client: Hey, how's it going?", type: "chat" },
+  { text: "You: Doing great, thanks! What's up?", type: "chat" },
+  {
+    text: "Client: We need to deploy a new version of our website. Can you handle it?",
+    type: "chat",
+  },
+  {
+    text: "You: Of course! Do you have any new features or changes?",
+    type: "chat",
+  },
+  {
+    text: "Client: Yes, we've added some React components. The repo is updated.",
+    type: "chat",
+  },
+  {
+    text: "You: Awesome! I'll pull the latest code and deploy it.",
+    type: "chat",
+  },
+  {
+    text: "Client: Perfect. We're also moving to AWS S3 for hosting.",
+    type: "chat",
+  },
+  { text: "You: Sounds good. I'll get that set up for you.", type: "chat" },
+  { text: "Client: Great, let me know once it's live.", type: "chat" },
+  { text: "You: Will do. Talk to you soon!", type: "chat" },
+  { text: "Client: Thanks, looking forward to it!", type: "chat" },
+];
 
-
+const chatElement = document.querySelector("code.chat") as HTMLElement;
 const htmlElement = document.querySelector("code.html") as HTMLElement;
 const rawHtml = (await import(`../../index.html?raw`)).default;
 const cssElement = document.querySelector("code.css") as HTMLElement;
@@ -256,63 +312,99 @@ function addFollowingCircle(app: PIXI.Application<HTMLCanvasElement>) {
   });
 }
 
-function typeCommand(command: string, preElement: HTMLElement, cb: () => void) {
+function typeCommand(
+  commands: { text: string; type: string }[],
+  preElement: HTMLElement,
+  cb: Function,
+  currentIndex: number,
+  currentText: string
+) {
   let commandIndex = 0;
+  let commandString = commands[currentIndex].text;
   function typeChar() {
-    let currentSubstring = command.substring(0, commandIndex + 1);
+    let currentSubstring = commandString.substring(0, commandIndex + 1);
     let highlighted = Prism.highlight(
-      currentTerminalText + currentSubstring,
+      currentText + currentSubstring,
       Prism.languages.sh,
       "sh"
     );
 
-    if (commandIndex < command.length) {
+    if (commandIndex < commandString.length) {
       preElement.innerHTML = highlighted;
       commandIndex++;
       setTimeout(typeChar, 10);
     } else {
-      textIndex++;
-      currentTerminalText += currentSubstring;
-      currentTerminalText += "\n";
-      cb();
+      currentText += currentSubstring;
+      currentText += "\n";
+      setTimeout(() => {
+        cb(preElement, commands, currentIndex + 1, currentText);
+      }, 1000);
     }
   }
 
   typeChar();
 }
 
-function typeInstant(text: string, preElement: HTMLElement, cb: () => void) {
-  currentTerminalText += text + "\n";
+function typeChat(
+  commands: { text: string; type: string }[],
+  preElement: HTMLElement,
+  cb: Function,
+  currentIndex: number,
+  currentText: string
+) {
+  currentText += commands[currentIndex].text + "\n";
+  preElement.innerHTML = currentText;
+  setTimeout(() => {
+    cb(preElement, commands, currentIndex + 1, currentText);
+  }, 2000);
+}
+
+function typeInstant(
+  commands: { text: string; type: string }[],
+  preElement: HTMLElement,
+  cb: Function,
+  currentIndex: number,
+  currentText: string
+) {
+  currentText += commands[currentIndex].text + "\n";
   const highlighted = Prism.highlight(
-    currentTerminalText,
+    currentText,
     Prism.languages.bash,
     "bash"
   );
   preElement.innerHTML = highlighted;
-  textIndex++;
   setTimeout(() => {
-    cb();
-  }, 500);
+    cb(preElement, commands, currentIndex + 1, currentText);
+  }, 1000);
 }
 
-function typeTerminal() {
-  if (terminalElement) {
-    if (textIndex < terminalText.length) {
-      if (terminalText[textIndex].type === "command") {
-        typeCommand(
-          terminalText[textIndex].text,
-          terminalElement,
-          typeTerminal
-        );
-      } else {
-        setTimeout(() => {
-          typeInstant(
-            terminalText[textIndex].text,
-            terminalElement,
-            typeTerminal
-          );
-        }, 500);
-      }
+function typeTerminal(
+  preElement: HTMLElement,
+  messages: { text: string; type: string }[],
+  currentIndex: number = 0,
+  currentText: string = ""
+) {
+  if (!preElement) return;
+  if (currentIndex < messages.length) {
+    if (messages[currentIndex].type === "command") {
+      typeCommand(
+        messages,
+        preElement,
+        typeTerminal,
+        currentIndex,
+        currentText
+      );
+    }
+    if (messages[currentIndex].type === "chat") {
+      typeChat(messages, preElement, typeTerminal, currentIndex, currentText);
+    } else {
+      typeInstant(
+        messages,
+        preElement,
+        typeTerminal,
+        currentIndex,
+        currentText
+      );
     }
   }
 }
@@ -349,7 +441,7 @@ function initTabs() {
 
   pres.forEach((pre) => pre.classList.add("pre-inactive"));
   pres[0].classList.replace("pre-inactive", "pre-active");
-  tabs[0].classList.add("tab-active");  
+  tabs[0].classList.add("tab-active");
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", (e) => {
@@ -359,13 +451,13 @@ function initTabs() {
       pres.forEach((pre) =>
         pre.classList.replace("pre-active", "pre-inactive")
       );
-      tabs.forEach((tab) => tab.classList.remove("tab-active"));  
+      tabs.forEach((tab) => tab.classList.remove("tab-active"));
 
       document
         .querySelector(`pre[data-tag="${dataTarget}"]`)
         ?.classList.replace("pre-inactive", "pre-active");
-      
-      target.classList.add("tab-active");  
+
+      target.classList.add("tab-active");
     });
   });
 }
@@ -386,13 +478,9 @@ export async function setupHero(view: HTMLElement) {
     Prism.languages.css,
     "css"
   );
-  injectStringToCode(
-    rawJs,
-    jsElement as HTMLElement,
-    Prism.languages.js,
-    "js"
-  );
-  typeTerminal();
+  injectStringToCode(rawJs, jsElement as HTMLElement, Prism.languages.js, "js");
+  typeTerminal(terminalElement, terminalText);
+  typeTerminal(chatElement, chatText);
   addFollowingCircle(app);
   addPointerEvent(app);
   addScrollListener();
