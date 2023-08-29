@@ -35,7 +35,7 @@ function addIntersectionObserversToItems() {
       });
     },
     {
-      rootMargin: "0px 0px -250px 0px",
+      rootMargin: "0px 0px -150px 0px",
     }
   );
 
@@ -54,7 +54,7 @@ function addPlanningEventListener(planning: HTMLElement) {
 
     const scrollPercentage = scrollTop / (scrollHeight - clientHeight);
 
-    const percentToFade = 0.5;
+    const percentToFade = 0.6;
     if (
       scrollTop >= planningOffsetTop &&
       scrollTop <= planningOffsetTop + planningHeight &&
