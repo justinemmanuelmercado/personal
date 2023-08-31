@@ -179,15 +179,19 @@
     display: none;
   }
 
+  .left {
+    padding: 0.5rem;
+  }
+
   .hero-copy {
     flex-direction: column;
     max-width: 100lvw;
+    gap: 1rem;
 
     & .right {
       & pre {
         width: 320px;
         aspect-ratio: 2/1;
-
       }
     }
 
@@ -200,9 +204,13 @@
   }
 
   .hero-copy {
-    & pre {
-      width: 600px;
-      aspect-ratio: 2/1;
+    & .right {
+
+      & pre {
+        width: 600px;
+        aspect-ratio: 2/1;
+      }
+
     }
 
     flex-direction: row;
