@@ -1,13 +1,11 @@
 .planning {
   display: flex;
-  height: 100lvh;
   width: 100lvw;
   max-width: var(--max-width);
   margin: 0 auto;
   align-items: center;
 
   & .planning-title {
-    font-size: 6.854rem;
     text-align: center;
   }
 
@@ -19,7 +17,7 @@
 
     & .items {
       display: flex;
-      flex-direction: row;
+
       & .item {
         --figure-transition-delay: 0.3s;
         display: flex;
@@ -117,5 +115,21 @@
 
   100% {
     background: linear-gradient(270deg, var(--color2), var(--color1));
+  }
+}
+
+@media (min-width: 0px) {
+  .items {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 769px) {
+  .planning {
+    height: 100lvh;
+  }
+
+  .items {
+    flex-direction: row;
   }
 }
