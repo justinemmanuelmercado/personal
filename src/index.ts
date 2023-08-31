@@ -79,4 +79,5 @@ function addPlanningEventListener(planning: HTMLElement) {
     }
   });
 }
-await main();
+
+main();

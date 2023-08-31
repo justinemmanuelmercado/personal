@@ -1,11 +1,8 @@
 import * as PIXI from "pixi.js";
 
-const svgIds = ["cursor", "dotted-square", "resize-square"];
-
 export async function renderSketchingAnimation(sketching: HTMLElement) {
   const app = addSketchingCanvas(sketching);
   addBg(app);
-  const svgs = await loadSvgs();
   addItems(app);
 }
 
@@ -22,17 +19,6 @@ function addSketchingCanvas(
   return app;
 }
 
-async function loadSvgs(): Promise<Record<string, PIXI.Texture>> {
-  const svgs: Record<string, PIXI.Texture> = {};
-
-  for (const id of svgIds) {
-    const svg = await PIXI.Texture.fromURL(`${id}.svg`);
-    svgs[id] = svg;
-  }
-
-  return svgs;
-}
-
 function addBg(app: PIXI.Application) {
   const canvasBg = new PIXI.Graphics();
   const sketchingBg = "#222222";
@@ -41,15 +27,6 @@ function addBg(app: PIXI.Application) {
   canvasBg.endFill();
   app.stage.addChild(canvasBg);
 }
-
-  function createRectangle(width: number, height: number) {
-    const lineColor = "#f8f8f8";
-    return new PIXI.Graphics()
-      .lineStyle(1, lineColor) // Gray border
-      .beginFill(0, 0) // Transparent fill
-      .drawRect(0, 0, width, height)
-      .endFill();
-  }
 
   function addItems(app: PIXI.Application) {
     const lineColor = "#f8f8f8";

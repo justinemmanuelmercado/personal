@@ -114,11 +114,8 @@ const chatText = [
 
 const chatElement = document.querySelector("code.chat") as HTMLElement;
 const htmlElement = document.querySelector("code.html") as HTMLElement;
-const rawHtml = (await import(`../../index.html?raw`)).default;
 const cssElement = document.querySelector("code.css") as HTMLElement;
-const rawCss = (await import(`../style/index.css?raw`)).default;
 const jsElement = document.querySelector("code.js") as HTMLElement;
-const rawJs = (await import(`../index.ts?raw`)).default;
 
 function animateHero() {
   const words = document.querySelectorAll(".word");
@@ -457,6 +454,9 @@ function initTabs() {
 }
 
 export async function setupHero(view: HTMLElement) {
+  const rawHtml = (await import(`../../index.html?raw`)).default;
+  const rawCss = (await import(`../style/index.css?raw`)).default;
+  const rawJs = (await import(`../index.ts?raw`)).default;
   const app = createApp();
   addBg(app);
   initTabs();
