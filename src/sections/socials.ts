@@ -47,5 +47,5 @@ export function renderCtaAnimation() {
     });
   };
 
-  container.addEventListener("mousemove", onMouseMove);
+  container.addEventListener("mousemove", onMouseMove, { passive: true});
 }

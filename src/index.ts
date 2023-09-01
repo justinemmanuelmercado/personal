@@ -2,19 +2,14 @@ import "./style/clean.css";
 import "./style/index.css";
 
 import { setupHero } from "./sections/hero";
-import { renderSketchingAnimation } from "./sections/sketching";
 import { renderCtaAnimation } from "./sections/socials";
 
 const hero = document.getElementById("hero-animation");
-const sketching = document.getElementById("sketching");
 const planning = document.querySelector(".planning") as HTMLElement;
 async function main() {
   renderCtaAnimation();
   if (hero) {
     await setupHero(hero);
-  }
-  if (sketching) {
-    await renderSketchingAnimation(sketching);
   }
   if (planning) {
     addPlanningEventListener(planning);
@@ -77,7 +72,7 @@ function addPlanningEventListener(planning: HTMLElement) {
         (planning).style.opacity = "1"; // Ensure full opacity if less than 75%
       }
     }
-  });
+  }, { passive: true });
 }
 
 main();

@@ -31,6 +31,7 @@ const cdn = new aws.cloudfront.Distribution("personal-cdn", {
   enabled: true,
   defaultRootObject: "index.html",
   defaultCacheBehavior: {
+    compress: true,
     targetOriginId: bucket.arn,
     viewerProtocolPolicy: "redirect-to-https",
     allowedMethods: ["GET", "HEAD", "OPTIONS"],
