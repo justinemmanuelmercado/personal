@@ -1,0 +1,3 @@
+name: personal
+runtime: nodejs
+description: Personal website on AWS S3
