@@ -1,24 +1,14 @@
-import * as PIXI from "pixi.js";
-import { generateMonochromaticColors } from "../helpers";
-import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
-import { AsciiFilter } from "@pixi/filter-ascii";
+// import * as PIXI from "pixi.js";
+// import { generateMonochromaticColors } from "../helpers";
+// import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
+// import { AsciiFilter } from "@pixi/filter-ascii";
 import Prism from "prismjs";
 
-let canvasBg: PIXI.Graphics;
+// let canvasBg: PIXI.Graphics;
 
 // PixiJs BG
 const heroSection = document.getElementsByClassName("hero");
-const minSpeed = 1;
-const maxSpeed = 5;
-const minSize = 10;
-const maxSize = 20;
-const baseColor = "#f8f8f8";
-const bgColor = "#000";
-const numOfCircles = 100;
-const hoverSize = 50;
-const asciiFontSize = 24;
-const hoverColor = "#fff";
-const explosionColor = "#e1e1e1";
+
 
 // Terminal Animation
 const terminalElement = document.querySelector("code.bash") as HTMLElement;
@@ -138,33 +128,33 @@ function animateHero() {
 }
 
 // Function to create a donut shape
-function createDonut(x: number, y: number, app: PIXI.Application) {
-  const donut = new PIXI.Graphics();
-  let outerRadius = 50; // Initial outer radius
-  let innerRadius = 100; // Inner radius to create the "donut" effect
-  const speed = 10; // Speed at which the donut grows
-  const shrinkSpeed = 3; // Speed the inner radius shrinks
+// function createDonut(x: number, y: number, app: PIXI.Application) {
+//   const donut = new PIXI.Graphics();
+//   let outerRadius = 50; // Initial outer radius
+//   let innerRadius = 100; // Inner radius to create the "donut" effect
+//   const speed = 10; // Speed at which the donut grows
+//   const shrinkSpeed = 3; // Speed the inner radius shrinks
 
-  donut.lineStyle(innerRadius, 0xffffff); // Set the line style (thickness and color)
-  donut.drawCircle(x, y, outerRadius);
-  app.stage.addChild(donut);
+//   donut.lineStyle(innerRadius, 0xffffff); // Set the line style (thickness and color)
+//   donut.drawCircle(x, y, outerRadius);
+//   app.stage.addChild(donut);
 
-  const growDonut = () => {
-    outerRadius += speed; // Increase the outer radius to grow the donut
-    innerRadius -= shrinkSpeed;
-    donut.clear(); // Clear the previous drawing
-    donut.lineStyle(innerRadius, explosionColor); // Reset the line style
-    donut.drawCircle(x, y, outerRadius); // Redraw the donut with the new radius
+//   const growDonut = () => {
+//     outerRadius += speed; // Increase the outer radius to grow the donut
+//     innerRadius -= shrinkSpeed;
+//     donut.clear(); // Clear the previous drawing
+//     donut.lineStyle(innerRadius, explosionColor); // Reset the line style
+//     donut.drawCircle(x, y, outerRadius); // Redraw the donut with the new radius
 
-    if (innerRadius < 0) {
-      app.ticker.remove(growDonut); // Remove the ticker function
-      app.stage.removeChild(donut); // Remove the donut from the stage
-    }
-  };
+//     if (innerRadius < 0) {
+//       app.ticker.remove(growDonut); // Remove the ticker function
+//       app.stage.removeChild(donut); // Remove the donut from the stage
+//     }
+//   };
 
-  // Add the ticker function to the app ticker
-  app.ticker.add(growDonut);
-}
+//   // Add the ticker function to the app ticker
+//   app.ticker.add(growDonut);
+// }
 
 function addScrollListener() {
   window.addEventListener("scroll", () => {
@@ -191,118 +181,122 @@ function addScrollListener() {
         (heroSection[0] as HTMLElement).style.opacity = "1"; // Ensure full opacity if less than 75%
       }
     }
-  });
+  }, { passive: true });
 }
 
-function addPointerEvent(app: PIXI.Application<HTMLCanvasElement>) {
-  app.view.addEventListener("pointerdown", (event) => {
-    const rect = app.view.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    createDonut(x, y, app);
-  });
-}
+// function addPointerEvent(app: PIXI.Application<HTMLCanvasElement>) {
+//   app.view.addEventListener("pointerdown", (event) => {
+//     const rect = app.view.getBoundingClientRect();
+//     const x = event.clientX - rect.left;
+//     const y = event.clientY - rect.top;
+//     createDonut(x, y, app);
+//   }, { passive: true });
+// }
 
-function createApp(): PIXI.Application<HTMLCanvasElement> {
-  const app = new PIXI.Application<HTMLCanvasElement>();
-  app.renderer.resize(window.innerWidth, window.innerHeight);
-  return app;
-}
+// function createApp(): PIXI.Application<HTMLCanvasElement> {
+//   const app = new PIXI.Application<HTMLCanvasElement>();
+//   app.renderer.resize(window.innerWidth, window.innerHeight);
+//   return app;
+// }
 
-function addBg(app: PIXI.Application) {
-  app.stage.filters = [
-    new KawaseBlurFilter(10, 10, true),
-    new AsciiFilter(asciiFontSize),
-  ];
-  const colors = generateMonochromaticColors(baseColor, numOfCircles);
-  canvasBg = new PIXI.Graphics();
-  canvasBg.beginFill(bgColor);
-  // canvasBg.beginFill(baseColor); // Your chosen background color
-  canvasBg.drawRect(0, 0, app.renderer.width, app.renderer.height);
-  canvasBg.endFill();
-  app.stage.addChild(canvasBg);
-  const circles = addRandomCircles(app, colors);
+// function addBg(app: PIXI.Application) {
+//   app.stage.filters = [
+//     new KawaseBlurFilter(10, 10, true),
+//     new AsciiFilter(asciiFontSize),
+//   ];
+//   const colors = generateMonochromaticColors(baseColor, numOfCircles);
+//   canvasBg = new PIXI.Graphics();
+//   canvasBg.beginFill(bgColor);
+//   // canvasBg.beginFill(baseColor); // Your chosen background color
+//   canvasBg.drawRect(0, 0, app.renderer.width, app.renderer.height);
+//   canvasBg.endFill();
+//   app.stage.addChild(canvasBg);
+//   const circles = addRandomCircles(app, colors);
 
-  // Define velocities for each circle
-  const velocities = circles.map(() => ({
-    y: Math.random() * maxSpeed - minSpeed,
-  }));
-  app.ticker.add(() => {
-    circles.forEach((circle, index) => {
-      const velocity = velocities[index];
+//   // Define velocities for each circle
+//   const velocities = circles.map(() => ({
+//     y: Math.random() * maxSpeed - minSpeed,
+//   }));
+//   app.ticker.add(() => {
+//     circles.forEach((circle, index) => {
+//       const velocity = velocities[index];
 
-      // Update positions
-      const bounds = circle.getBounds();
-      circle.y += velocity.y;
+//       // Update positions
+//       const bounds = circle.getBounds();
+//       circle.y += velocity.y;
 
-      if (bounds.top < 0) {
-        circle.y += -bounds.top; // Move inside the boundary
-        velocity.y = Math.abs(velocity.y); // Make velocity positive
-      }
-      if (bounds.bottom > app.renderer.height) {
-        circle.y -= bounds.bottom - app.renderer.height; // Move inside the boundary
-        velocity.y = -Math.abs(velocity.y); // Make velocity negative
-      }
-    });
-  });
-}
+//       if (bounds.top < 0) {
+//         circle.y += -bounds.top; // Move inside the boundary
+//         velocity.y = Math.abs(velocity.y); // Make velocity positive
+//       }
+//       if (bounds.bottom > app.renderer.height) {
+//         circle.y -= bounds.bottom - app.renderer.height; // Move inside the boundary
+//         velocity.y = -Math.abs(velocity.y); // Make velocity negative
+//       }
+//     });
+//   });
+// }
 
-function addRandomCircles(
-  app: PIXI.Application,
-  colors: string[]
-): PIXI.Graphics[] {
-  const container = new PIXI.Container();
-  container.width = app.renderer.width;
-  container.height = app.renderer.height;
-  const circles: PIXI.Graphics[] = [];
+// function addRandomCircles(
+//   app: PIXI.Application,
+//   colors: string[]
+// ): PIXI.Graphics[] {
+//   const container = new PIXI.Container();
+//   container.width = app.renderer.width;
+//   container.height = app.renderer.height;
+//   const circles: PIXI.Graphics[] = [];
 
-  colors.forEach((color) => {
-    const circle = new PIXI.Graphics();
-    circle.beginFill(color);
-    const radius = Math.random() * maxSize + minSize;
-    const x = Math.random() * (app.renderer.width - radius * 2);
-    const y = Math.random() * (app.renderer.height - radius * 2);
-    circle.drawRect(x + radius, y + radius, radius, radius * 4); // Draw with center coordinates
-    app.stage.addChild(circle);
-    circles.push(circle);
-  });
+//   colors.forEach((color) => {
+//     const circle = new PIXI.Graphics();
+//     circle.beginFill(color);
+//     const radius = Math.random() * maxSize + minSize;
+//     const x = Math.random() * (app.renderer.width - radius * 2);
+//     const y = Math.random() * (app.renderer.height - radius * 2);
+//     circle.drawRect(x + radius, y + radius, radius, radius * 4); // Draw with center coordinates
+//     app.stage.addChild(circle);
+//     circles.push(circle);
+//   });
 
-  return circles;
-}
+//   return circles;
+// }
 
-function addFollowingCircle(app: PIXI.Application<HTMLCanvasElement>) {
-  // Create a circle graphic with a 200-pixel radius and white color
-  const circle = new PIXI.Graphics();
-  circle.beginFill(hoverColor);
-  circle.drawCircle(0, 0, hoverSize);
-  circle.endFill();
+// function addFollowingCircle(app: PIXI.Application<HTMLCanvasElement>) {
+//   // Create a circle graphic with a 200-pixel radius and white color
+//   const circle = new PIXI.Graphics();
+//   circle.beginFill(hoverColor);
+//   circle.drawCircle(0, 0, hoverSize);
+//   circle.endFill();
 
-  // Add the circle to the application
-  app.stage.addChild(circle);
+//   // Add the circle to the application
+//   app.stage.addChild(circle);
 
-  // Variables to store the target position
-  let targetX = circle.x;
-  let targetY = circle.y;
+//   // Variables to store the target position
+//   let targetX = circle.x;
+//   let targetY = circle.y;
 
-  // Define a mousemove event listener to update the target position
-  app.view.addEventListener("mousemove", (event) => {
-    const rect = app.view.getBoundingClientRect();
-    targetX = event.clientX - rect.left;
-    targetY = event.clientY - rect.top;
-  });
+//   // Define a mousemove event listener to update the target position
+//   app.view.addEventListener(
+//     "mousemove",
+//     (event) => {
+//       const rect = app.view.getBoundingClientRect();
+//       targetX = event.clientX - rect.left;
+//       targetY = event.clientY - rect.top;
+//     },
+//     { passive: true }
+//   );
 
-  // Define a speed factor for how fast the circle should follow the mouse
-  const speedFactor = 0.1;
+//   // Define a speed factor for how fast the circle should follow the mouse
+//   const speedFactor = 0.1;
 
-  // Add a ticker function to move the circle towards the target position
-  app.ticker.add(() => {
-    const dx = targetX - circle.x;
-    const dy = targetY - circle.y;
-    if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return;
-    circle.x += dx * speedFactor;
-    circle.y += dy * speedFactor;
-  });
-}
+//   // Add a ticker function to move the circle towards the target position
+//   app.ticker.add(() => {
+//     const dx = targetX - circle.x;
+//     const dy = targetY - circle.y;
+//     if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return;
+//     circle.x += dx * speedFactor;
+//     circle.y += dy * speedFactor;
+//   });
+// }
 
 function typeCommand(
   commands: { text: string; type: string }[],
@@ -450,15 +444,15 @@ function initTabs() {
 
       target.classList.add("tab-active");
     });
-  });
+  }, { passive: true });
 }
 
-export async function setupHero(view: HTMLElement) {
+export async function setupHero() {
   const rawHtml = (await import(`../../index.html?raw`)).default;
   const rawCss = (await import(`../style/index.css?raw`)).default;
   const rawJs = (await import(`../index.ts?raw`)).default;
-  const app = createApp();
-  addBg(app);
+  // const app = createApp();
+  // addBg(app);
   initTabs();
   injectStringToCode(
     rawHtml,
@@ -475,11 +469,11 @@ export async function setupHero(view: HTMLElement) {
   injectStringToCode(rawJs, jsElement as HTMLElement, Prism.languages.js, "js");
   typeTerminal(terminalElement, terminalText);
   typeTerminal(chatElement, chatText);
-  addFollowingCircle(app);
-  addPointerEvent(app);
+  // addFollowingCircle(app);
+  // addPointerEvent(app);
   addScrollListener();
   setTimeout(() => {
     animateHero();
   }, 200);
-  view.appendChild(app.view);
+  // view.appendChild(app.view);
 }
