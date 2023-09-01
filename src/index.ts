@@ -41,6 +41,8 @@ function addIntersectionObserversToItems() {
 
 function addPlanningEventListener(planning: HTMLElement) {
   window.addEventListener("scroll", function () {
+    if (this.window.innerWidth < 768) return;
+
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;

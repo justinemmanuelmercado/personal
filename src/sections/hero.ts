@@ -170,6 +170,7 @@ function addScrollListener() {
   window.addEventListener(
     "scroll",
     () => {
+      if (window.innerWidth < 768) return;
       const htmlElement = document.documentElement;
       const percentOfScreenHeightScrolled =
         htmlElement.scrollTop / htmlElement.clientHeight;
@@ -293,11 +294,15 @@ function addFollowingCircle(app: PIXI.Application<HTMLCanvasElement>) {
   let targetY = circle.y;
 
   // Define a mousemove event listener to update the target position
-  app.view.addEventListener("mousemove", (event) => {
-    const rect = app.view.getBoundingClientRect();
-    targetX = event.clientX - rect.left;
-    targetY = event.clientY - rect.top;
-  }, { passive: true });
+  app.view.addEventListener(
+    "mousemove",
+    (event) => {
+      const rect = app.view.getBoundingClientRect();
+      targetX = event.clientX - rect.left;
+      targetY = event.clientY - rect.top;
+    },
+    { passive: true }
+  );
 
   // Define a speed factor for how fast the circle should follow the mouse
   const speedFactor = 0.1;
@@ -443,28 +448,56 @@ function initTabs() {
   tabs[0].classList.add("tab-active");
 
   tabs.forEach((tab) => {
-    tab.addEventListener("click", (e) => {
-      let target = e.target as HTMLElement;
-      let dataTarget = target.getAttribute("data-target");
+    tab.addEventListener(
+      "click",
+      (e) => {
+        let target = e.target as HTMLElement;
+        let dataTarget = target.getAttribute("data-target");
 
-      pres.forEach((pre) =>
-        pre.classList.replace("pre-active", "pre-inactive")
-      );
-      tabs.forEach((tab) => tab.classList.remove("tab-active"));
+        pres.forEach((pre) =>
+          pre.classList.replace("pre-active", "pre-inactive")
+        );
+        tabs.forEach((tab) => tab.classList.remove("tab-active"));
 
-      document
-        .querySelector(`pre[data-tag="${dataTarget}"]`)
-        ?.classList.replace("pre-inactive", "pre-active");
+        document
+          .querySelector(`pre[data-tag="${dataTarget}"]`)
+          ?.classList.replace("pre-inactive", "pre-active");
 
-      target.classList.add("tab-active");
-    }, { passive: true });
+        target.classList.add("tab-active");
+      },
+      { passive: true }
+    );
   });
 }
 
 export async function setupHero(view: HTMLElement) {
-  const rawHtml = (await import(`../../index.html?raw`)).default;
-  const rawCss = (await import(`../style/index.css?raw`)).default;
-  const rawJs = (await import(`../index.ts?raw`)).default;
+  const rawHtml = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="script.js"></script>
+  </body>
+  </html>`;
+  const rawCss = `body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  #app {
+    text-align: center;
+    margin-top: 50px;
+  }`;
+  const rawJs = `document.addEventListener("DOMContentLoaded", () => {
+    const app = document.getElementById("app");
+    app.textContent = "Hello, world!";
+  });`;
   const app = createApp();
   addBg(app);
   initTabs();
