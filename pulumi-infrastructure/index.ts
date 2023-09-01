@@ -1,6 +1,18 @@
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 
+const responseHeaderPolicy = new aws.cloudfront.ResponseHeadersPolicy("myCacheResponseHeaderPolicy", {
+  customHeadersConfig: {
+    items: [
+      {
+        header: "Cache-Control",
+        override: true,
+        value: "max-age=2592000",
+      },
+    ],
+  },
+});
+
 // Create S3 Bucket
 const bucket = new aws.s3.Bucket("personal-bucket", {
   website: {
@@ -19,6 +31,7 @@ const originAccessIdentity = new aws.cloudfront.OriginAccessIdentity(
 // Create CloudFront Distribution
 const cdn = new aws.cloudfront.Distribution("personal-cdn", {
   aliases: ["ejmercado.com"],
+  httpVersion: "http2",
   origins: [
     {
       domainName: bucket.bucketRegionalDomainName,
@@ -33,6 +46,7 @@ const cdn = new aws.cloudfront.Distribution("personal-cdn", {
   defaultCacheBehavior: {
     compress: true,
     targetOriginId: bucket.arn,
+    responseHeadersPolicyId: responseHeaderPolicy.id,
     viewerProtocolPolicy: "redirect-to-https",
     allowedMethods: ["GET", "HEAD", "OPTIONS"],
     cachedMethods: ["GET", "HEAD", "OPTIONS"],
@@ -61,20 +75,19 @@ const cdn = new aws.cloudfront.Distribution("personal-cdn", {
 const bucketPolicy = new aws.s3.BucketPolicy("bucketPolicy", {
   bucket: bucket.id, // refer to the bucket created earlier
   policy: pulumi.jsonStringify({
-      Version: "2012-10-17",
-      Statement: [
-          {
-          Effect: "Allow",
-          Principal: {
-              AWS: originAccessIdentity.iamArn,
-          }, // Only allow Cloudfront read access.
-          Action: ["s3:GetObject"],
-          Resource: [pulumi.interpolate `${bucket.arn}/*`], // Give Cloudfront access to the entire bucket.
-          },
-      ],
-  },
-)});
-
+    Version: "2012-10-17",
+    Statement: [
+      {
+        Effect: "Allow",
+        Principal: {
+          AWS: originAccessIdentity.iamArn,
+        }, // Only allow Cloudfront read access.
+        Action: ["s3:GetObject"],
+        Resource: [pulumi.interpolate`${bucket.arn}/*`], // Give Cloudfront access to the entire bucket.
+      },
+    ],
+  }),
+});
 
 export const bucketName = bucket.bucket;
 export const cdnDomain = cdn.domainName;

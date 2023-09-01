@@ -167,40 +167,48 @@ function createDonut(x: number, y: number, app: PIXI.Application) {
 }
 
 function addScrollListener() {
-  window.addEventListener("scroll", () => {
-    const htmlElement = document.documentElement;
-    const percentOfScreenHeightScrolled =
-      htmlElement.scrollTop / htmlElement.clientHeight;
+  window.addEventListener(
+    "scroll",
+    () => {
+      const htmlElement = document.documentElement;
+      const percentOfScreenHeightScrolled =
+        htmlElement.scrollTop / htmlElement.clientHeight;
 
-    const percentToFade = 0.3;
-    if (percentOfScreenHeightScrolled > percentToFade) {
-      const fadeOutPercentage =
-        1 - (percentOfScreenHeightScrolled - percentToFade) / 0.25;
-      const clampedFadeOutPercentage = Math.min(
-        Math.max(fadeOutPercentage, 0.1),
-        1
-      );
-
-      if (heroSection[0]) {
-        (heroSection[0] as HTMLElement).style.opacity = String(
-          clampedFadeOutPercentage
+      const percentToFade = 0.3;
+      if (percentOfScreenHeightScrolled > percentToFade) {
+        const fadeOutPercentage =
+          1 - (percentOfScreenHeightScrolled - percentToFade) / 0.25;
+        const clampedFadeOutPercentage = Math.min(
+          Math.max(fadeOutPercentage, 0.1),
+          1
         );
+
+        if (heroSection[0]) {
+          (heroSection[0] as HTMLElement).style.opacity = String(
+            clampedFadeOutPercentage
+          );
+        }
+      } else {
+        if (heroSection[0]) {
+          (heroSection[0] as HTMLElement).style.opacity = "1"; // Ensure full opacity if less than 75%
+        }
       }
-    } else {
-      if (heroSection[0]) {
-        (heroSection[0] as HTMLElement).style.opacity = "1"; // Ensure full opacity if less than 75%
-      }
-    }
-  });
+    },
+    { passive: true }
+  );
 }
 
 function addPointerEvent(app: PIXI.Application<HTMLCanvasElement>) {
-  app.view.addEventListener("pointerdown", (event) => {
-    const rect = app.view.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    createDonut(x, y, app);
-  });
+  app.view.addEventListener(
+    "pointerdown",
+    (event) => {
+      const rect = app.view.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      createDonut(x, y, app);
+    },
+    { passive: true }
+  );
 }
 
 function createApp(): PIXI.Application<HTMLCanvasElement> {
@@ -289,7 +297,7 @@ function addFollowingCircle(app: PIXI.Application<HTMLCanvasElement>) {
     const rect = app.view.getBoundingClientRect();
     targetX = event.clientX - rect.left;
     targetY = event.clientY - rect.top;
-  });
+  }, { passive: true });
 
   // Define a speed factor for how fast the circle should follow the mouse
   const speedFactor = 0.1;
@@ -449,7 +457,7 @@ function initTabs() {
         ?.classList.replace("pre-inactive", "pre-active");
 
       target.classList.add("tab-active");
-    });
+    }, { passive: true });
   });
 }
 
