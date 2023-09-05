@@ -91,3 +91,4 @@ const bucketPolicy = new aws.s3.BucketPolicy("bucketPolicy", {
 
 export const bucketName = bucket.bucket;
 export const cdnDomain = cdn.domainName;
+export const cdnDistributionId = cdn.id;

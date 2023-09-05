@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "invalidate-cache": "node scripts/invalidate-cache.js"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.0",
@@ -18,7 +19,10 @@
     "@pixi/filter-ascii": "^5.1.1",
     "@pixi/filter-color-replace": "^5.1.1",
     "@pixi/filter-kawase-blur": "^5.1.1",
+    "@pulumi/pulumi": "^3.80.0",
+    "aws-sdk": "^2.1450.0",
     "chroma-js": "^2.4.2",
+    "dotenv": "^16.3.1",
     "pixi.js": "^7.2.4",
     "prismjs": "^1.29.0",
     "vite-plugin-prismjs": "^0.0.8"

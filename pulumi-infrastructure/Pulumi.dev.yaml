@@ -1,3 +1,4 @@
 config:
   aws:profile: pulumi-deployment
   aws:region: us-west-2
+  project:org: justinemmanuelmercado
